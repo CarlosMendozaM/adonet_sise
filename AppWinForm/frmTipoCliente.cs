@@ -76,13 +76,27 @@ namespace AppWinForm
 
         private void btndelete_Click(object sender, EventArgs e)
         {
-            DialogResult respuesta = MessageBox.Show("¿Realmente desea eliminar el registro?", "Sistemas",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (respuesta == DialogResult.Yes)
+            int id = getId();
+            if (id > 0)
             {
-                //Eliminar el registro
-                MessageBox.Show("Registro Eliminado", "Sistemas",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult respuesta = MessageBox.Show("¿Realmente desea eliminar el registro?", "Sistemas",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    //Eliminar el registro
+                    var adaptador = new dsAppTableAdapters.TipoClienteTableAdapter();
+                    adaptador.Remove(id);
+
+                    MessageBox.Show("Registro Eliminado", "Sistemas",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    cargarDatos();
+                }
+            }else
+            {
+                MessageBox.Show("Debe seleccionar un Id valido", "Sistemas",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }
